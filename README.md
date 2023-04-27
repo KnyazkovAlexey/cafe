@@ -50,3 +50,11 @@ Content-Type: application/json
 GET http://localhost/api/v1/cooks/popular?from=2023-01-01&to=2023-12-01
 
 </pre>
+
+<h2>Развёртывание</h2>
+<pre>
+docker-compose up -d
+docker exec -it composer install
+docker exec -it yii migrate
+http://localhost/api/v1/cooks
+</pre>
