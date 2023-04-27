@@ -43,7 +43,13 @@ class PopularCookSearch extends Model
             return [];
         }
 
-        return Cook::find()
+        $cacheKey = ['popular-cooks', $this->from, $this->to];
+
+        if (Yii::$app->cache->exists($cacheKey)) {
+            return Yii::$app->cache->get($cacheKey);
+        }
+
+        $result = Cook::find()
             ->select(['cooks.id AS cook_id', 'cooks.name AS cook_name', 'COUNT(*) AS dishes_count'])
             ->innerJoin('menu_positions', 'menu_positions.cook_id = cooks.id')
             ->innerJoin('check_positions', 'check_positions.menu_position_id = menu_positions.id')
@@ -53,5 +59,9 @@ class PopularCookSearch extends Model
             ->limit(Yii::$app->params['popularCooksLimit'])
             ->asArray()
             ->all();
+
+        Yii::$app->cache->set($cacheKey, $result, 60 * 60);
+
+        return $result;
     }
 }
