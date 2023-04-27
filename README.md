@@ -54,7 +54,7 @@ GET http://localhost/api/v1/cooks/popular?from=2023-01-01&to=2023-12-01
 <h2>Развёртывание</h2>
 <pre>
 docker-compose up -d
-docker exec -it composer install
-docker exec -it yii migrate
+docker exec -it AppCafe composer install
+docker exec -it AppCafe yii migrate
 http://localhost/api/v1/cooks
 </pre>
